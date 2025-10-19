@@ -68,13 +68,13 @@ class DataProcessor:
         
         # Scale feature
         if not self.is_fitted:
-            x_train_scaled = self.scale.fit_transform(x_train)
+            x_train_scaled = self.scaler.fit_transform(x_train)
             x_val_scaled = self.scaler.fit_transform(x_val)
             x_test_scaled = self.scaler.fit_transform(x_test)
             self.is_fitted = True
         
         logger.info(f"Data splits - Train: {x_train_scaled.shape}, Val: {x_val_scaled.shape},Test: {x_test_scaled.shape}")
-        return{
+        return {
             'x_train': x_train_scaled, 'y_train': y_train.values,
             'x_val': x_val_scaled, 'y_val': y_val.values,
             'x_test': x_test_scaled, 'y_test': y_test.values
