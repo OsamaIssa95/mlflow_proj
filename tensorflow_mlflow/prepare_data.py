@@ -11,8 +11,7 @@ from sklearn.preprocessing import StandardScaler
 #deeplearning libs
 import tensorflow as tf
 from tensorflow import keras
-#additional deep learning libs
-from hyperopt import fmin, toe, hp, STATUS_OK, Trials
+
 
 #mlops libs
 import mlflow
@@ -25,6 +24,8 @@ import warnings
 
 
 logger = logging.getLogger("__main__")
+SEED = 42
+np.random.seed(SEED)
 
 class DataProcessor:
     """ Handles data loading, preprocessing, and splitting"""

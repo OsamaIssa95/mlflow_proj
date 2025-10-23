@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 # machine learning libs
 from sklearn.model_selection import train_test_split
@@ -12,8 +13,7 @@ from sklearn.preprocessing import StandardScaler
 # deeplearning libs
 import tensorflow as tf
 from tensorflow import keras
-# additional deep learning libs
-from hyperopt import fmin, toe, hp, STATUS_OK, Trials
+
 
 # mlops libs
 import mlflow
@@ -33,8 +33,12 @@ logger = logging.getLogger(__name__)
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings('ignore')
+# Suppress TensorFlow logging
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
-
+# Additional TensorFlow configuration to reduce verbosity
+tf.get_logger().setLevel('ERROR')
 
 
 def main():
@@ -56,7 +60,7 @@ def main():
         # Step 2: Run hyperparameters optimization
         logger.info("Step 2: Starting hyperparameter optimnization")
         optimizer = model.HyperparameterOptimizer(processed_data, EXPEREMENT_NAME)
-        results = optimizer.optimize(max_evals = MAX_EVALS)
+        results = optimizer.optimize(n_trials = MAX_EVALS)
         
         # Step 3: Final evaluation (optional - train best model on full training data)
         logger.info("Step 3: Optimization completed")
